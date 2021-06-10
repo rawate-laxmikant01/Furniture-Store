@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:padding="10dp"
+    tools:context=".AddDeliveryAddress">
+
+    <EditText
+        android:id="@+id/fullname_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/square"
+        android:hint="Full Name(Required)*"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/phoneNoid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/square"
+        android:hint="Phone number(Required)*"
+        android:inputType="number"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fullname_id" />
+
+
+    <EditText
+        android:id="@+id/idedtPinCode"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/square"
+        android:hint="6 Digit Pincode(Req)*"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/stateid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNoid" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="select your city *"
+        app:layout_constraintBottom_toTopOf="@+id/village"
+        app:layout_constraintStart_toStartOf="@+id/village"
+        app:layout_constraintTop_toBottomOf="@+id/idedtPinCode" />
+
+    <EditText
+        android:id="@+id/stateid"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square"
+        android:hint="State(Required)*"
+        android:importantForAutofill="no"
+        android:inputType="textPostalAddress"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@+id/village"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/village" />
+
+
+    <Spinner
+        android:id="@+id/village"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/rectangle"
+        android:hint="villages"
+        android:padding="10dp"
+        app:layout_constraintStart_toEndOf="@+id/stateid"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <EditText
+        android:id="@+id/housenoid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/square"
+        android:hint="House No ,Building Name(Required)*"
+        android:inputType="textPostalAddress"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/village" />
+
+    <EditText
+        android:id="@+id/Roadnameid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/square"
+        android:hint="Road name,Area,colony(Required)*"
+        android:inputType="textPostalAddress"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/housenoid" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Type of address"
+        app:layout_constraintBottom_toTopOf="@+id/adhome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Roadnameid" />
+
+    <CheckBox
+        android:id="@+id/adhome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/roundrectangle"
+        android:drawableLeft="@drawable/ic_baseline_home_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/textblack"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Home"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+
+
+    <TextView
+        android:id="@+id/adhomecolor"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/roundrectanglecolor"
+        android:drawableLeft="@drawable/ic_baseline_home_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Home"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <CheckBox
+
+        android:id="@+id/adwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/roundrectangle"
+        android:drawableLeft="@drawable/ic_baseline_work_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/textblack"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="work"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/adhome"
+        app:layout_constraintStart_toEndOf="@+id/adhome"
+        app:layout_constraintTop_toTopOf="@+id/adhome" />
+
+    <TextView
+        android:id="@+id/adworkcolor"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/roundrectanglecolor"
+        android:drawableLeft="@drawable/ic_baseline_work_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="work"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/adhome"
+        app:layout_constraintStart_toEndOf="@+id/adhome"
+        app:layout_constraintTop_toTopOf="@+id/adhome" />
+
+    <Button
+        android:id="@+id/btn_saveAdress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/orange"
+        android:text="Save Adress"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adhome" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
