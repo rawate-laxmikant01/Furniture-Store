@@ -8,4 +8,6 @@
     <color name="lightyello">#FAFBEF5B</color>
     <color name="orange">#F56400</color>
     <color name="white">#FFF</color>
+    <color name="green">#F522D11D</color>
+    <color name="red">#CC1616</color>
 </resources>

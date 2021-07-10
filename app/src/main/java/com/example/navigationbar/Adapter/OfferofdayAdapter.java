@@ -35,7 +35,7 @@ public class OfferofdayAdapter  extends RecyclerView.Adapter<OfferofdayAdapter.i
     @Override
     public OfferofdayAdapter.itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_gridview,parent,false);
-        return new OfferofdayAdapter.itemViewHolder(view);
+        return new itemViewHolder(view);
     }
 
     @Override
@@ -58,6 +58,13 @@ public class OfferofdayAdapter  extends RecyclerView.Adapter<OfferofdayAdapter.i
         String idiscount=itemm.getDiscount();
         String iid=itemm.getId();
 
+        String totalquantity,category,brand,color;
+
+        totalquantity=itemm.getTotalquantity();
+        category=itemm.getCategory();
+        brand=itemm.getBrand();
+        color=itemm.getColor();
+
         holder.itemviewbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,14 +77,15 @@ public class OfferofdayAdapter  extends RecyclerView.Adapter<OfferofdayAdapter.i
                 intent.putExtra("idiscount",idiscount);
                 intent.putExtra("chartproduct",iid);
 
+                intent.putExtra("totalquantity",totalquantity);
+                intent.putExtra("category",category);
+                intent.putExtra("brand",brand);
+                intent.putExtra("color",color);
+
                 mcontexr.startActivity(intent);
             }
         });
 
-
-
-        //   String img=itemmodel.getItemimg();
-//
         Glide.with(mcontexr)
                 .load(img)
                 .into(holder.itemimg);
@@ -87,10 +95,10 @@ public class OfferofdayAdapter  extends RecyclerView.Adapter<OfferofdayAdapter.i
 
     @Override
     public int getItemCount() {
-        return item.size();
+        return 4;
     }
 
-    public class itemViewHolder extends RecyclerView.ViewHolder {
+    public static class itemViewHolder extends RecyclerView.ViewHolder {
 
         ImageView itemimg;
         TextView itemname,mrpprice,price,discount;
@@ -107,11 +115,6 @@ public class OfferofdayAdapter  extends RecyclerView.Adapter<OfferofdayAdapter.i
 
             mrpprice.setPaintFlags(mrpprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-
-
-            //   TextView someTextView = (TextView) findViewById(R.id.some_text_view);
-//            someTextView.setText(someString);
-//            someTextView.setPaintFlags(someTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }
 }

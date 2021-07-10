@@ -10,7 +10,7 @@ import com.smarteist.autoimageslider.SliderViewAdapter;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.MyViewHolder> {
 
-    private int[] images;
+    private final int[] images;
 
     public SliderAdapter(int[] images) {
         this.images = images;

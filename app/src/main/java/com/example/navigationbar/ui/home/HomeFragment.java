@@ -1,6 +1,7 @@
 package com.example.navigationbar.ui.home;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,18 +9,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,19 +27,14 @@ import com.example.navigationbar.Adapter.FourItemViewAdapter;
 import com.example.navigationbar.Adapter.ItemGridViewAdapter;
 import com.example.navigationbar.Adapter.OfferofdayAdapter;
 import com.example.navigationbar.Adapter.SliderAdapter;
-import com.example.navigationbar.Model.CartModel;
+import com.example.navigationbar.MainActivity;
 import com.example.navigationbar.Model.CatagoriesModel;
 import com.example.navigationbar.Model.ItemGridViewModel;
 import com.example.navigationbar.R;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.example.navigationbar.categories.BedActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -51,19 +44,16 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import static android.widget.SearchView.*;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
     private SliderView sliderView;
-    //grid view for images
-    private RecyclerView catagoriesRecyclerView, recyclerView, offerRecyclerView;
-    // private ItemGridViewAdapter itemGridViewAdapter;
+    private RecyclerView catagoriesRecyclerView;
+    private RecyclerView recyclerView,offerRecyclerView;
     private FourItemViewAdapter fourItemViewAdapter;
-    private ArrayList<ItemGridViewModel> list, offerlist;
-    //private ArrayList<ItemGridViewModel> offerlist;
+    private ArrayList<ItemGridViewModel> list,offerlist;
+    ConstraintLayout constraintLayout2;
 
     //--------------------------------------------
     ArrayList<CatagoriesModel> catagorieslist;
@@ -72,15 +62,23 @@ public class HomeFragment extends Fragment {
     CollectionReference collectionReference;
 
     OfferofdayAdapter offerofdayAdapter;
+    private ProgressBar homepageprogess;
 
+    Button btn_all_deal, btn_all_super;
 
+    @SuppressLint("CutPasteId")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        offerRecyclerView = root.findViewById(R.id.home_supersaveroffer_recyclerview);
+        btn_all_deal = root.findViewById(R.id.btn_viewall_dealofday_id);
+        btn_all_super = root.findViewById(R.id.btn_viewall_dealofday_id);
+        homepageprogess=root.findViewById(R.id.homepageprogress);
+
+        constraintLayout2=root.findViewById(R.id.constraintLayout2);
+       offerRecyclerView = root.findViewById(R.id.home_supersaveroffer_recyclerview);
         sliderView = root.findViewById(R.id.imageSlider);
         catagoriesRecyclerView = root.findViewById(R.id.catagories_recyclerview);
         catagorieslist = new ArrayList<>();
@@ -91,14 +89,16 @@ public class HomeFragment extends Fragment {
         recyclerView = root.findViewById(R.id.home_gridview_recyclerview);
 
 
-
-
+        btn_all_super.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), BedActivity.class);
+            intent.putExtra("category", "Beds");
+            startActivity(intent);
+        });
 
         catagroryMethod();
         sliderViewCode();
         dealOfTheDay();
         offerproducts();
-
 
         return root;
     }
@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment {
                             }
                             offerofdayAdapter = new OfferofdayAdapter(offerlist, getActivity());
                             offerRecyclerView.setAdapter(offerofdayAdapter);
-                            // }
+
                         } else {
                             String e = task.getException().toString();
                             Toast.makeText(getContext(), "Failed" + e, Toast.LENGTH_SHORT).show();
@@ -130,10 +130,9 @@ public class HomeFragment extends Fragment {
 
 
                     }
-//
+
                 });
     }
-
 
     private void catagroryMethod() {
 
@@ -141,8 +140,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot dataSnapshot : task.getResult()) {
-                        catagorieslist.add(new CatagoriesModel(dataSnapshot.get("img").toString(), dataSnapshot.get("name").toString()));
+                    for (QueryDocumentSnapshot dataSnapshot : Objects.requireNonNull(task.getResult())) {
+                        catagorieslist.add(new CatagoriesModel(Objects.requireNonNull(dataSnapshot.get("img")).toString(), Objects.requireNonNull(dataSnapshot.get("name")).toString()));
                         //  CatagoriesAdapter.notifydatasetchangle();
                     }
                     catagoriesAdapter = new CatagoriesAdapter(catagorieslist, getContext());
@@ -160,9 +159,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void sliderViewCode() {
-        //---------------------------------------slider images
-
-        int[] images = new int[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4};
+        int[] images = new int[]{R.drawable.banner1, R.drawable.banner3, R.drawable.banner2, R.drawable.banner4};
 
 
         SliderAdapter adapter = new SliderAdapter(images);
@@ -183,18 +180,20 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-
-
                             for (QueryDocumentSnapshot d : task.getResult()) {
-                                list.add(new ItemGridViewModel(d.get("name").toString(), d.get("itemimg").toString(), d.getString("price").toString()
-                                        , d.getString("mrpprice").toString(), d.getString("discount").toString()
-                                        , d.getString("totalquantity").toString(), d.getString("id").toString(), d.getString("category").toString(),
-                                        d.getString("brand").toString(), d.getString("color").toString()));
-//
+                                list.add(new ItemGridViewModel(d.get("name").toString(), d.get("itemimg").toString(), d.getString("price")
+                                        , d.getString("mrpprice"), d.getString("discount")
+                                        , d.getString("totalquantity"), d.getString("id"), d.getString("category"),
+                                        d.getString("brand"), d.getString("color")));
+
                             }
+
                             fourItemViewAdapter = new FourItemViewAdapter(list, getContext());
                             recyclerView.setAdapter(fourItemViewAdapter);
-                            // }
+                            homepageprogess.setVisibility(View.GONE);
+                            constraintLayout2.setVisibility(View.VISIBLE);
+
+
                         } else {
                             String e = task.getException().toString();
                             Toast.makeText(getContext(), "Failed" + e, Toast.LENGTH_SHORT).show();
@@ -202,7 +201,9 @@ public class HomeFragment extends Fragment {
 
 
                     }
-//
+
                 });
     }
+
+
 }

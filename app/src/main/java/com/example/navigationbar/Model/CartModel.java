@@ -1,19 +1,21 @@
 package com.example.navigationbar.Model;
 
 public class CartModel {
-    String name,itemimg,price,mrpprice,discount,id;
+    String name, itemimg, price, mrpprice, discount, id, totalquantity,date;
     // int price,mrpprice,discount;
 
     public CartModel() {
     }
 
-    public CartModel(String name, String itemimg, String price, String mrpprice, String discount, String id) {
+    public CartModel(String name, String itemimg, String price, String mrpprice, String discount, String id, String totalquantity, String date) {
         this.name = name;
         this.itemimg = itemimg;
         this.price = price;
         this.mrpprice = mrpprice;
         this.discount = discount;
         this.id = id;
+        this.totalquantity = totalquantity;
+        this.date = date;
     }
 
     public String getName() {
@@ -62,5 +64,21 @@ public class CartModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTotalquantity() {
+        return totalquantity;
+    }
+
+    public void setTotalquantity(String totalquantity) {
+        this.totalquantity = totalquantity;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

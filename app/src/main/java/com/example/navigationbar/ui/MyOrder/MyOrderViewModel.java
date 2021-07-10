@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 public class MyOrderViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private final MutableLiveData<String> mText;
 
     public MyOrderViewModel() {
         mText = new MutableLiveData<>();

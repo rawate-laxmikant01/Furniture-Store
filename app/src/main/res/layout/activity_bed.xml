@@ -6,14 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".categories.BedActivity">
 
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/bed_gridview_recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:layout_margin="2dp"
+            android:id="@+id/btn_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:elevation="5dp"
+            android:background="@color/cardview_light_background"
+            android:gravity="center"
+           android:drawableLeft="@drawable/ic_baseline_sort_24"
+            android:layout_weight="1"
+            android:text="Sort" />
+        <Button
+            android:id="@+id/btn_filter"
+            android:layout_margin="2dp"
+            android:elevation="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@color/cardview_light_background"
+            android:gravity="center"
+            android:drawableLeft="@drawable/ic_baseline_filter_list_24"
+            android:layout_weight="1"
+            android:text="Filter" />
+
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="5dp"
         android:id="@+id/bed_gridview_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="521dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

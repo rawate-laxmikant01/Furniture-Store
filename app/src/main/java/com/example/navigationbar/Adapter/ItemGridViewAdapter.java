@@ -13,12 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.navigationbar.Model.CartModel;
 import com.example.navigationbar.Model.ItemGridViewModel;
 import com.example.navigationbar.ProductDetails;
 import com.example.navigationbar.R;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-
 
 import java.util.ArrayList;
 
@@ -32,13 +29,11 @@ public class ItemGridViewAdapter extends RecyclerView.Adapter<ItemGridViewAdapte
         this.mcontexr = mcontexr;
     }
 
-    public ItemGridViewAdapter(FirebaseRecyclerOptions<ItemGridViewModel> options) {
-    }
 
     @NonNull
     @Override
     public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_gridview,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custome_product_listview,parent,false);
         return new itemViewHolder(view);
     }
 
@@ -48,12 +43,10 @@ public class ItemGridViewAdapter extends RecyclerView.Adapter<ItemGridViewAdapte
         ItemGridViewModel itemmodel=item.get(position);
 
         holder.itemname.setText(item.get(position).getName());
-
         holder.price.setText(item.get(position).getPrice());
-
         holder.mrpprice.setText(item.get(position).getMrpprice());
-
         holder.discount.setText(item.get(position).getDiscount());
+        holder.color.setText(item.get(position).getColor());
 
         String img=itemmodel.getItemimg();
         String iname=itemmodel.getName();
@@ -61,6 +54,13 @@ public class ItemGridViewAdapter extends RecyclerView.Adapter<ItemGridViewAdapte
         String imrp=itemmodel.getMrpprice();
         String idiscount=itemmodel.getDiscount();
         String iid=itemmodel.getId();
+
+        String totalquantity,category,brand,color;
+
+        totalquantity=itemmodel.getTotalquantity();
+        category=itemmodel.getCategory();
+        brand=itemmodel.getBrand();
+        color=itemmodel.getColor();
 
         holder.itemviewbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,18 +74,18 @@ public class ItemGridViewAdapter extends RecyclerView.Adapter<ItemGridViewAdapte
                 intent.putExtra("idiscount",idiscount);
                 intent.putExtra("chartproduct",iid);
 
+
+                intent.putExtra("totalquantity",totalquantity);
+                intent.putExtra("category",category);
+                intent.putExtra("brand",brand);
+                intent.putExtra("color",color);
+
                 mcontexr.startActivity(intent);
             }
         });
-
-
-
-     //   String img=itemmodel.getItemimg();
-//
         Glide.with(mcontexr)
                 .load(img)
                 .into(holder.itemimg);
-
 
     }
 
@@ -97,25 +97,18 @@ public class ItemGridViewAdapter extends RecyclerView.Adapter<ItemGridViewAdapte
     public class itemViewHolder extends RecyclerView.ViewHolder {
 
         ImageView itemimg;
-        TextView itemname,mrpprice,price,discount;
+        TextView itemname,mrpprice,price,discount,color;
         View itemviewbtn;
         public itemViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            itemviewbtn=itemView.findViewById(R.id.item_cardview_id);
-            itemimg=itemView.findViewById(R.id.img_gridview_id);
-            itemname=itemView.findViewById(R.id.tv_name);
-            mrpprice=itemView.findViewById(R.id.tv_mrpprice);
-            price=itemView.findViewById(R.id.tv_price);
-            discount=itemView.findViewById(R.id.tv_discount);
-
-           mrpprice.setPaintFlags(mrpprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-
-
-         //   TextView someTextView = (TextView) findViewById(R.id.some_text_view);
-//            someTextView.setText(someString);
-//            someTextView.setPaintFlags(someTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            itemviewbtn = itemView.findViewById(R.id.item_cardview_id_list);
+            itemimg = itemView.findViewById(R.id.image_listview);
+            itemname = itemView.findViewById(R.id.order_name);
+            mrpprice = itemView.findViewById(R.id.tv_mrpprice_list);
+            price = itemView.findViewById(R.id.tv_price_list);
+            discount = itemView.findViewById(R.id.tv_discount_list);
+            color = itemView.findViewById(R.id.color);
+            mrpprice.setPaintFlags(mrpprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }
 }

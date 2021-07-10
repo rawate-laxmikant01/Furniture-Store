@@ -24,6 +24,8 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.concurrent.TimeUnit;
+
 public class OtpVerification extends AppCompatActivity {
 
     EditText text1,text2,text3,text4,text5,text6;
@@ -146,20 +148,19 @@ public class OtpVerification extends AppCompatActivity {
 //                                            Intent intent=new Intent(OtpVerification.this,MainActivity.class);
 //                                            startActivity(intent);
 
-                                            userrefrance.child(auth.getCurrentUser().getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            userrefrance.child(auth.getCurrentUser().getUid()).child("information").setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
                                                         Intent intent=new Intent(OtpVerification.this,MainActivity.class);
                                                  //       intent.putExtra("userid",userId);
                                                          startActivity(intent);
-
                                                     }
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(OtpVerification.this, "Unable to create account try again", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(OtpVerification.this, "Unable to create account try again  "+e.getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
                                             });
 
@@ -188,4 +189,10 @@ public class OtpVerification extends AppCompatActivity {
 
 
     }
+
+    public void resendOtp(View view) {
+
+    }
+
+
 }

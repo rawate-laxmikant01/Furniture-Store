@@ -1,12 +1,13 @@
 package com.example.navigationbar.Model;
 
 public class AdressModel {
-    String fullname,phoneno,pincode,state,city,houseno,roadname,typeAd;
+    String fullname,phoneno,pincode,state,city,houseno,roadname,typeAd,addressId;
 
     public AdressModel() {
     }
 
-    public AdressModel(String fullname, String phoneno, String pincode, String state, String city, String houseno, String roadname, String typeAd) {
+    public AdressModel(String fullname, String phoneno, String pincode, String state,
+                       String city, String houseno, String roadname, String typeAd, String addressId) {
         this.fullname = fullname;
         this.phoneno = phoneno;
         this.pincode = pincode;
@@ -15,6 +16,7 @@ public class AdressModel {
         this.houseno = houseno;
         this.roadname = roadname;
         this.typeAd = typeAd;
+        this.addressId = addressId;
     }
 
     public String getFullname() {
@@ -79,5 +81,13 @@ public class AdressModel {
 
     public void setTypeAd(String typeAd) {
         this.typeAd = typeAd;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 }

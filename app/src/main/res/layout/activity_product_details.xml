@@ -103,15 +103,50 @@
 
 
             </LinearLayout>
-
             <TextView
-                android:id="@+id/productdetail_quantity_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="product quantity"
-                android:textColor="#E61915"
-                android:textSize="16dp" />
+                android:text="FREE Delivery an orders over ₹499"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/Hurry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Hurry,Only "
+                    android:textColor="#E61915"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:id="@+id/productdetail_quantity_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="10 "
+                    android:textColor="#E61915"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/Left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="left!"
+                    android:textColor="#E61915"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#8B171616"/>
+
+
 
         </LinearLayout>
 

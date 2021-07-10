@@ -156,9 +156,11 @@
             android:text="Don't recived the otp" />
 
         <TextView
+            android:id="@+id/resend_otp_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:onClick="resendOtp"
             android:text="Resend OTP"
             android:textSize="16sp"
             android:textStyle="bold" />

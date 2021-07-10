@@ -16,103 +16,99 @@ import com.bumptech.glide.Glide;
 import com.example.navigationbar.Model.ItemGridViewModel;
 import com.example.navigationbar.ProductDetails;
 import com.example.navigationbar.R;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import java.util.ArrayList;
 
 public class FourItemViewAdapter extends RecyclerView.Adapter<FourItemViewAdapter.itemViewHolder> {
 
-        ArrayList<ItemGridViewModel> item;
-        Context mcontexr;
+    ArrayList<ItemGridViewModel> item;
+    Context mcontexr;
 
-public FourItemViewAdapter(ArrayList<ItemGridViewModel> item, Context mcontexr) {
+    public FourItemViewAdapter(ArrayList<ItemGridViewModel> item, Context mcontexr) {
         this.item = item;
         this.mcontexr = mcontexr;
-        }
+    }
 
 
-
-@NonNull
-@Override
-public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_gridview,parent,false);
+    @NonNull
+    @Override
+    public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_gridview, parent, false);
         return new itemViewHolder(view);
-        }
+    }
 
-@Override
-public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
 
-        ItemGridViewModel itemmodel=item.get(position);
+        ItemGridViewModel itemmodel = item.get(position);
 
-        holder.itemname.setText(item.get(position).getName());
+        holder.itemname.setText(itemmodel.getName());
+        holder.price.setText(itemmodel.getPrice());
+        holder.mrpprice.setText(itemmodel.getMrpprice());
+        holder.discount.setText(itemmodel.getDiscount());
 
-        holder.price.setText(item.get(position).getPrice());
-
-        holder.mrpprice.setText(item.get(position).getMrpprice());
-
-        holder.discount.setText(item.get(position).getDiscount());
-
-        String img=itemmodel.getItemimg();
-        String iname=itemmodel.getName();
-        String iprice=itemmodel.getPrice();
-        String imrp=itemmodel.getMrpprice();
-        String idiscount=itemmodel.getDiscount();
-        String iid=itemmodel.getId();
+         String img = itemmodel.getItemimg();
+//        String iname = itemmodel.getName();
+//        String iprice = itemmodel.getPrice();
+//        String imrp = itemmodel.getMrpprice();
+//        String idiscount = itemmodel.getDiscount();
+//        String iid = itemmodel.getId();
+//
+//        String totalquantity, category, brand, color;
+//
+//        totalquantity = itemmodel.getTotalquantity();
+//        category = itemmodel.getCategory();
+//        brand = itemmodel.getBrand();
+//        color = itemmodel.getColor();
 
         holder.itemviewbtn.setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View v) {
-        Intent intent=new Intent(mcontexr, ProductDetails.class);
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mcontexr, ProductDetails.class);
 
-        intent.putExtra("img",img);
-        intent.putExtra("iname",iname);
-        intent.putExtra("iprice",iprice);
-        intent.putExtra("imrp",imrp);
-        intent.putExtra("idiscount",idiscount);
-        intent.putExtra("chartproduct",iid);
+                intent.putExtra("img", img);
+                intent.putExtra("iname", itemmodel.getName());
+                intent.putExtra("iprice", itemmodel.getPrice());
+                intent.putExtra("imrp", itemmodel.getMrpprice());
+                intent.putExtra("idiscount", itemmodel.getDiscount());
+                intent.putExtra("chartproduct", itemmodel.getId());
+                intent.putExtra("totalquantity", itemmodel.getTotalquantity());
+                intent.putExtra("category", itemmodel.getCategory());
+                intent.putExtra("brand", itemmodel.getBrand());
+                intent.putExtra("color", itemmodel.getColor());
 
-        mcontexr.startActivity(intent);
-        }
+                mcontexr.startActivity(intent);
+            }
         });
-
-
-
-        //   String img=itemmodel.getItemimg();
-//
         Glide.with(mcontexr)
-        .load(img)
-        .into(holder.itemimg);
+                .load(img)
+                .into(holder.itemimg);
 
+   }
 
-        }
-
-@Override
-public int getItemCount() {
-        return item.size();
-        }
-
-public class itemViewHolder extends RecyclerView.ViewHolder {
-
-    ImageView itemimg;
-    TextView itemname,mrpprice,price,discount;
-    View itemviewbtn;
-    public itemViewHolder(@NonNull View itemView) {
-        super(itemView);
-
-        itemviewbtn=itemView.findViewById(R.id.item_cardview_id);
-        itemimg=itemView.findViewById(R.id.img_gridview_id);
-        itemname=itemView.findViewById(R.id.tv_name);
-        mrpprice=itemView.findViewById(R.id.tv_mrpprice);
-        price=itemView.findViewById(R.id.tv_price);
-        discount=itemView.findViewById(R.id.tv_discount);
-
-        mrpprice.setPaintFlags(mrpprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-
-
-        //   TextView someTextView = (TextView) findViewById(R.id.some_text_view);
-//            someTextView.setText(someString);
-//            someTextView.setPaintFlags(someTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+    @Override
+    public int getItemCount() {
+        return 4;
     }
-}
+
+    public class itemViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView itemimg;
+        TextView itemname, mrpprice, price, discount;
+        View itemviewbtn;
+
+        public itemViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            itemviewbtn = itemView.findViewById(R.id.item_cardview_id);
+            itemimg = itemView.findViewById(R.id.img_gridview_id);
+            itemname = itemView.findViewById(R.id.tv_name);
+            mrpprice = itemView.findViewById(R.id.tv_mrpprice);
+            price = itemView.findViewById(R.id.tv_price);
+            discount = itemView.findViewById(R.id.tv_discount);
+
+            mrpprice.setPaintFlags(mrpprice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        }
+    }
 }

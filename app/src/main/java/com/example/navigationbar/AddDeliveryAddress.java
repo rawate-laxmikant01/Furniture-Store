@@ -1,9 +1,5 @@
 package com.example.navigationbar;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +14,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,7 +27,6 @@ import com.example.navigationbar.Model.AdressModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,9 +46,8 @@ public class AddDeliveryAddress extends AppCompatActivity {
     ArrayList<String> list;
 
     Button saveadress;
-    String Villagename, district, state, country;
+    String  Villagename,villagestore,district, state, country;
     ArrayAdapter<String> villageadapter;
-    String villagestore;
 
     CheckBox home, work;
 
@@ -100,6 +97,9 @@ public class AddDeliveryAddress extends AppCompatActivity {
 
                     type="home";
                 }
+                else {
+                    type="s";
+                }
             }
         });
         work.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -115,6 +115,9 @@ public class AddDeliveryAddress extends AppCompatActivity {
                     work.setVisibility(View.INVISIBLE);
 
                     type="work";
+                }
+                else {
+                    type="s";
                 }
             }
         });
@@ -149,8 +152,9 @@ public class AddDeliveryAddress extends AppCompatActivity {
                 String phone=phoneno.getText().toString().trim();
                 String house=houseno.getText().toString().trim();
                 String road=roadno.getText().toString().trim();
+                String addressid=databaseReference.push().getKey();
 
-                AdressModel adressModel=new AdressModel(name,phone,pinCode,state,villagestore,house,road,type);
+                AdressModel adressModel=new AdressModel(name,phone,pinCode,state,Villagename,house,road,type,addressid);
                 if (name.isEmpty()) {
                     fullname.setError(getResources().getString(R.string.name_error));
                     fullnameverify = false;
@@ -160,42 +164,49 @@ public class AddDeliveryAddress extends AppCompatActivity {
                 if (phoneno.getText().toString().isEmpty()) {
                     phoneno.setError(getResources().getString(R.string.phone_error));
                     phoneverify = false;
-                } else {
+                }
+                if(phoneno.getText().toString().length()!=10){
+                    phoneno.setError(getResources().getString(R.string.phone_length));
+                    phoneverify = false;
+                }else {
                     phoneverify = true;
                 }
                 //pinCodeEdt, adstate, fullname, phoneno, houseno, roadno;
-                if (pinCodeEdt.getText().toString().isEmpty()) {
-                    pinCodeEdt.setError(getResources().getString(R.string.phone_error));
+                if (pinCodeEdt.getText().toString().isEmpty() ) {
+                    pinCodeEdt.setError(getResources().getString(R.string.Pincode_error));
+                    if(pinCodeEdt.getText().toString().length()!=6){
+                        pinCodeEdt.setError(getResources().getString(R.string.Pincode_error));
+                    }
                     pincodeverify = false;
                 } else {
                     pincodeverify = true;
                 }
                 if (adstate.getText().toString().isEmpty()) {
-                    adstate.setError(getResources().getString(R.string.phone_error));
+                    adstate.setError(getResources().getString(R.string.state_error));
                     stateverify = false;
                 } else {
                     stateverify = true;
                 }
-                if (village.toString().isEmpty()) {
+                if (Villagename.isEmpty()) {
 //                    village.setError(getResources().getString(R.string.phone_error));
                     Toast.makeText(AddDeliveryAddress.this, "Please select your village", Toast.LENGTH_SHORT).show();
                     cityverify = false;
                 } else {
                     cityverify = true;
                 }
-                if (houseno.toString().isEmpty()) {
-                    houseno.setError(getResources().getString(R.string.phone_error));
+                if (houseno.getText().toString().isEmpty()) {
+                    houseno.setError(getResources().getString(R.string.houseno));
                     houseverify = false;
                 } else {
                     houseverify = true;
                 }
-                if (roadno.toString().isEmpty()) {
-                    roadno.setError(getResources().getString(R.string.phone_error));
+                if (roadno.getText().toString().isEmpty()) {
+                    roadno.setError(getResources().getString(R.string.road_no));
                     roadnameverify = false;
                 } else {
                     roadnameverify = true;
                 }
-                if (type.isEmpty()) {
+                if (type=="s") {
                    // type.setError(getResources().getString(R.string.phone_error));
                     Toast.makeText(AddDeliveryAddress.this, "Please select type", Toast.LENGTH_SHORT).show();
                     typeverify = false;
@@ -211,6 +222,7 @@ public class AddDeliveryAddress extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(AddDeliveryAddress.this, "Address added", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -320,15 +332,16 @@ public class AddDeliveryAddress extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 villagestore = list.get(position);
-
                 //temperory value have been stored in ethinicity_store of list which user have been selected.
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(AddDeliveryAddress.this, "ethernity not selecteed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddDeliveryAddress.this, "Village is  not selecteed", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
     }
 

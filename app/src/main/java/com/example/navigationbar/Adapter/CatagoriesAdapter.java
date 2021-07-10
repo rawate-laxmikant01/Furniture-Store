@@ -10,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -35,7 +33,7 @@ public class CatagoriesAdapter extends RecyclerView.Adapter<CatagoriesAdapter.my
     @Override
     public myviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custome_catagories_view,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custome_catagories_view, parent, false);
         return new myviewHolder(view);
     }
 
@@ -43,20 +41,19 @@ public class CatagoriesAdapter extends RecyclerView.Adapter<CatagoriesAdapter.my
     public void onBindViewHolder(@NonNull myviewHolder holder, int position) {
         holder.name.setText(list.get(position).getName());
 
-        String cimg=list.get(position).getImg();
+        String cimg = list.get(position).getImg();
 
         Glide.with(mcontext).load(cimg).into(holder.img);
 
         holder.catergoryview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mcontext.startActivity(new Intent(mcontext, BedFragment.class));
+
                 Toast.makeText(mcontext, "bed", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(mcontext, BedActivity.class);
-                intent.putExtra("category",list.get(position).getName());
+                Intent intent = new Intent(mcontext, BedActivity.class);
+                intent.putExtra("category", list.get(position).getName());
 
                 mcontext.startActivity(intent);
-//
             }
         });
 
@@ -74,9 +71,9 @@ public class CatagoriesAdapter extends RecyclerView.Adapter<CatagoriesAdapter.my
 
         public myviewHolder(@NonNull View itemView) {
             super(itemView);
-            img=itemView.findViewById(R.id.imageview_id);
-            name=itemView.findViewById(R.id.catagoreis_name);
-            catergoryview=itemView.findViewById(R.id.categoryView);
+            img = itemView.findViewById(R.id.imageview_id);
+            name = itemView.findViewById(R.id.catagoreis_name);
+            catergoryview = itemView.findViewById(R.id.categoryView);
 
         }
     }

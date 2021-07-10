@@ -2,7 +2,6 @@ package com.example.navigationbar.Model;
 
 public class ItemGridViewModel {
     String name,itemimg,price,mrpprice,discount,totalquantity,id,category,brand,color;
-    // int price,mrpprice,discount;
 
     public ItemGridViewModel() {
     }

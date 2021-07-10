@@ -1,9 +1,6 @@
 package com.example.navigationbar;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -12,80 +9,103 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
-import com.example.navigationbar.Adapter.CartAdapter;
 import com.example.navigationbar.Model.CartModel;
-import com.example.navigationbar.Model.ItemGridViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
 public class ProductDetails extends AppCompatActivity {
 
-    private ImageView detailimg;
-    private TextView Pname,Psubdetail,Pprice,Pmrp,Pdiscount,Pdetail;
-    private Button btn_addtocart;
+    private TextView Pname, Psubdetail, Pprice, Pmrp, Pdiscount, Pdetail, Pquantity,hurry,left;
+    private Button btn_addtocart,btn_buy;
 
-    String Pchartid;
     private FirebaseAuth auth;
-    private FirebaseDatabase database;
     private DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        auth=FirebaseAuth.getInstance();
-        database=FirebaseDatabase.getInstance();
-        reference=database.getReference("userdata");
+        auth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        reference = database.getReference("userdata");
+        hurry=findViewById(R.id.Hurry);
+        left=findViewById(R.id.Left);
+        ImageView detailimg = findViewById(R.id.productdetail_img_id);
+        Pname = findViewById(R.id.productdetail_name_id);
+        Psubdetail = findViewById(R.id.productdetail_subdetail_id);
+        Pprice = findViewById(R.id.productdetail_price);
+        Pmrp = findViewById(R.id.productdetail_mrpprice);
+        Pdiscount = findViewById(R.id.productdetail_discount);
+        Pdetail = findViewById(R.id.productdetail_description_id);
+        btn_addtocart = findViewById(R.id.btn_addtocart_id);
+        Pquantity = findViewById(R.id.productdetail_quantity_id);
+        btn_buy=findViewById(R.id.btn_buy_id);
 
 
-//-------------------------------------------------
-        detailimg=findViewById(R.id.productdetail_img_id);
-        Pname=findViewById(R.id.productdetail_name_id);
-        Psubdetail=findViewById(R.id.productdetail_subdetail_id);
-        Pprice=findViewById(R.id.productdetail_price);
-        Pmrp=findViewById(R.id.productdetail_mrpprice);
-        Pdiscount=findViewById(R.id.productdetail_discount);
-        Pdetail=findViewById(R.id.productdetail_description_id);
-        btn_addtocart=findViewById(R.id.btn_addtocart_id);
+        String totalquantity, category, brand, color;
 
 
-
-        String img=getIntent().getStringExtra("img");
+        String img = getIntent().getStringExtra("img");
         Glide.with(this).load(img).into(detailimg);
 
-        String iname= getIntent().getStringExtra("iname");
-        String iprice=getIntent().getStringExtra("iprice");
-        String imrp=getIntent().getStringExtra("imrp");
-        String idiscount=getIntent().getStringExtra("idiscount");
-        String Pid=getIntent().getStringExtra("chartproduct");
+        String iname = getIntent().getStringExtra("iname");
+        String iprice = getIntent().getStringExtra("iprice");
+        String imrp = getIntent().getStringExtra("imrp");
+        String idiscount = getIntent().getStringExtra("idiscount");
+      //  String Pid = getIntent().getStringExtra("chartproduct");
+        totalquantity = getIntent().getStringExtra("totalquantity");
+//        id=getIntent().getStringExtra("id");
+        // category=getIntent().getStringExtra("category");
+        brand = getIntent().getStringExtra("brand");
+        color = getIntent().getStringExtra("color");
 
+        Pquantity.setText(totalquantity);
+        if (Integer.parseInt(totalquantity) < 10) {
+            hurry.setVisibility(View.VISIBLE);
+            Pquantity.setVisibility(View.VISIBLE);
+            left.setVisibility(View.VISIBLE);
+        }
+
+        Psubdetail.setText(color);
+        Pdetail.setText(brand);
         Pname.setText(iname);
         Pprice.setText(iprice);
         Pmrp.setText(imrp);
         Pdiscount.setText(idiscount);
-       // Pchartid=getIntent().getStringExtra("chartproduct");
+        // Pchartid=getIntent().getStringExtra("chartproduct");
+
+        String Pid=reference.push().getKey();
 
         Pmrp.setPaintFlags(Pmrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        String  date="date";
+
 
         btn_addtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                CartModel cartModel = new CartModel(iname, img, iprice, imrp, idiscount, Pid, totalquantity,date);
+                reference.child(auth.getCurrentUser().getUid()).child("chart").child(Pid).setValue(cartModel);
                 Toast.makeText(ProductDetails.this, "Product added to cart", Toast.LENGTH_SHORT).show();
-
-                //CartModel cartModel=new CartModel(Pchartid);
-                String name,itemimg,price,mrpprice,discount,id;
-                ItemGridViewModel itemGridViewModel=new ItemGridViewModel(iname,img,iprice,imrp,idiscount,Pid,null,null,null,null);
-
-                reference.child(auth.getCurrentUser().getUid()).child("chart").child(Pid).setValue(itemGridViewModel);
-                //we want user id
-
             }
         });
 
+        btn_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CartModel cartModel = new CartModel(iname, img, iprice, imrp, idiscount, Pid, totalquantity,date);
+                reference.child(auth.getCurrentUser().getUid()).child("chart").child(Pid).setValue(cartModel);
+                Toast.makeText(ProductDetails.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(ProductDetails.this,MyCartActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
